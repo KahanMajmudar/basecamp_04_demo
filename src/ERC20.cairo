@@ -125,8 +125,7 @@ mod ERC20 {
 }
 
 #[cfg(test)]
-mod tests{
- 
+mod tests {
     use integer::u256;
     use integer::u256_from_felt252;
     use starknet::ContractAddress;
@@ -138,7 +137,7 @@ mod tests{
 
     #[test]
     #[available_gas(2000000)]
-    fn test_01_constructor(){
+    fn test_01_constructor() {
         let initial_supply: u256 = u256_from_felt252(2000);
         let account: ContractAddress = contract_address_const::<1>();
         let decimals: u8 = 18_u8;
@@ -150,16 +149,14 @@ mod tests{
 
         let res_symbol = ERC20::get_symbol();
         assert(res_symbol == SYMBOL, 'Symbol does not match.');
-
         // Test decimals
-        // Your code here
-
+        let res_decimals = ERC20::get_decimals();
+        assert(res_decimals == decimals, 'Decimals does not match.');
         // Test total_supply
-        // Your code here
-
+        let res_total_supply = ERC20::get_total_supply();
+        assert(res_total_supply == initial_supply, 'Total Supply does not match.');
         // Test the balance of the account variable
-
-        // Your code here
-
+        let balance = ERC20::balance_of(account);
+        assert(balance == initial_supply, 'Balance does not match.');
     }
 }

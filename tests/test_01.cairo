@@ -38,7 +38,7 @@ fn test_transfer() {
 
 #[test]
 #[available_gas(2000000)]
-#[should_panic(expected:('ERC20: transfer to 0', ))]
+#[should_panic(expected: ('ERC20: transfer to 0', ))]
 fn test_transfer_to_zero() {
     let (owner, supply) = setup();
 
@@ -50,5 +50,15 @@ fn test_transfer_to_zero() {
 #[test]
 #[available_gas(2000000)]
 fn test_transfer_from() {
-    // Your code here
+    let (sender, supply) = setup();
+
+    let recipient: ContractAddress = contract_address_const::<2>();
+    let amount: u256 = u256_from_felt252(100);
+
+    // approve the sender with the amount
+    ERC20::approve(recipient, amount);
+    // set the calling account as recipient
+    set_caller_address(recipient);
+
+    ERC20::transfer_from(sender, recipient, amount);
 }
